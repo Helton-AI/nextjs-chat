@@ -195,7 +195,7 @@ export function PromptForm({
           value={input}
           onChange={e => setInput(e.target.value)}
         />
-        <div className="absolute right-0 top-[13px] sm:right-14">
+        <div className="absolute right-10 top-[13px] sm:right-14">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button type="button" size="icon" onClick={sendVoice}>
