@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/tooltip'
 import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { nanoid } from 'nanoid'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 
 export function PromptForm({
   input,
@@ -31,6 +31,7 @@ export function PromptForm({
   setInput: (value: string) => void
 }) {
   const router = useRouter()
+  const pathname = usePathname()
   const { formRef, onKeyDown } = useEnterSubmit()
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
   const { submitUserMessage } = useActions()
@@ -38,6 +39,12 @@ export function PromptForm({
   const chunks = React.useRef<Blob[]>([])
   const [mediaRecorder, setMediaRecorder] = React.useState<MediaRecorder>()
   const [isRecording, setIsRecording] = React.useState(false)
+  const recognitionRef = React.useRef<any>()
+
+  React.useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const text = params.get('text')
+  }, [pathname])
 
   const startRecording = () => {
     navigator.mediaDevices
@@ -52,6 +59,13 @@ export function PromptForm({
       setMediaRecorder(undefined)
     }
   }
+
+  // React.useEffect(() => {
+  //   window.addEventListener('message', function(event) {
+  //     console.log(event.data);
+  //     postMessage('a')
+  //   }, false);
+  // }, [])
 
   React.useEffect(() => {
     if (inputRef.current) {
@@ -115,23 +129,48 @@ export function PromptForm({
   }
 
   const sendVoice = () => {
-    console.log(isRecording)
+    // if (!isRecording) {
+    //   // console.log(wx.miniProgram)
+    //   // wx.miniProgram.postMessage({ data: 'foo' })
+    //   // wx.miniProgram.navigateBack()
+    //   startRecording()
+    // } else {
+    //   stopRecording()
+    // }
     if (!isRecording) {
-      startRecording()
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition
+      // console.log({ SpeechRecognition })
+      const recognition = new SpeechRecognition()
+      recognition.start()
+      recognitionRef.current = recognition
+      
+      recognition.onend = async event => {
+        alert(4)
+      }
+      recognition.onresult = async event => {
+      alert(5)
+      const transcript = event.results[0][0].transcript
+        // `Result received: ${transcript}.`;
+        // alert(transcript)
+
+        setMessages(currentMessages => [
+          ...currentMessages,
+          {
+            id: nanoid(),
+            display: <UserMessage>{transcript}</UserMessage>
+          }
+        ])
+        const responseMessage = await submitUserMessage(transcript)
+        setMessages(currentMessages => [...currentMessages, responseMessage])
+      }
+      recognition.onerror
+      setIsRecording(true)
     } else {
-      stopRecording()
+      recognitionRef.current.stop()
+      setIsRecording(false)
+      alert(6)
     }
-    //   const SpeechRecognition =
-    // window.SpeechRecognition || window.webkitSpeechRecognition;
-    // const recognition = new SpeechRecognition();
-    // recognition.start();
-    // recognition.onresult = (event) => {
-    //   console.log(event.results)
-    //   const color = event.results[0][0].transcript;
-    //   `Result received: ${color}.`;
-    //   console.log(`Result received: ${color}.`);
-    //   console.log(`Confidence: ${event.results[0][0].confidence}`);
-    // };
   }
 
   return (
