@@ -35,7 +35,7 @@ export function PromptForm({
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
   const { submitUserMessage } = useActions()
   const [_, setMessages] = useUIState<typeof AI>()
-  const chunks = React.useRef([])
+  const chunks = React.useRef<Blob[]>([])
   const [mediaRecorder, setMediaRecorder] = React.useState<MediaRecorder>()
   const [isRecording, setIsRecording] = React.useState(false)
 
