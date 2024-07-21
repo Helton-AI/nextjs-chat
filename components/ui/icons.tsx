@@ -476,6 +476,36 @@ function IconChevronUpDown({
   )
 }
 
+
+function IconMicrophone({ className, ...props }: React.ComponentProps<'svg'>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      className={cn('size-4', className)}
+      viewBox="0 0 1024 1024"
+      {...props}
+    >
+      <path d="M512 640c106.032 0 192-85.968 192-192V192c0-106.032-85.968-192-192-192S320 85.968 320 192v256c0 106.048 85.968 192 192 192z m352-175.632l-0.016-0.24L864 464a48 48 0 1 0-96 0c-0.064 141.36-114.64 255.936-256 256-141.36-0.064-255.936-114.64-256-256a48 48 0 1 0-96 0l0.016 0.128-0.016 0.24c0 178 132.384 324.72 304 348.032V928H304a48 48 0 1 0 0 96h416a48 48 0 1 0 0-96H560v-115.6c171.632-23.312 304-170.032 304-348.032z"></path>
+    </svg>
+  )
+}
+
+function IconDisableMicrophone({ className, ...props }: React.ComponentProps<'svg'>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      className={cn('size-4', className)}
+      viewBox="0 0 1024 1024"
+      {...props}
+    >
+      <path d="M512 640c106.032 0 192-85.968 192-192V192c0-106.032-85.968-192-192-192S320 85.968 320 192v256c0 106.048 85.968 192 192 192z m352-175.632l-0.016-0.24L864 464a48 48 0 1 0-96 0c-0.064 141.36-114.64 255.936-256 256-141.36-0.064-255.936-114.64-256-256a48 48 0 1 0-96 0l0.016 0.128-0.016 0.24c0 178 132.384 324.72 304 348.032V928H304a48 48 0 1 0 0 96h416a48 48 0 1 0 0-96H560v-115.6c171.632-23.312 304-170.032 304-348.032z"></path>
+      <path d="M792.007111 17.237333l52.792889 37.262223-591.644444 852.195555-52.849778-37.319111z" fill="#FF4200"></path>
+    </svg>
+  )
+}
+
 export {
   IconEdit,
   IconNextChat,
@@ -503,5 +533,7 @@ export {
   IconShare,
   IconUsers,
   IconExternalLink,
-  IconChevronUpDown
+  IconChevronUpDown,
+  IconMicrophone,
+  IconDisableMicrophone
 }

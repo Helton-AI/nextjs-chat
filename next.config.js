@@ -9,5 +9,8 @@ module.exports = {
         pathname: '**'
       }
     ]
+  },
+  env:{
+    OPENAI_API_KEY:'sk-BCCIX17Mb3OuyPpi85Ca471e9d9b4a6f9d5f22683b4cD277'
   }
 }
