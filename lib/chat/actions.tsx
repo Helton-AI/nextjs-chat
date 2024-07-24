@@ -9,7 +9,6 @@ import {
   createStreamableValue
 } from 'ai/rsc'
 import { createOpenAI } from '@ai-sdk/openai'
-
 import {
   spinner,
   BotCard,
@@ -35,10 +34,11 @@ import { saveChat } from '@/app/actions'
 import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
 import { Chat, Message } from '@/lib/types'
 import { auth } from '@/auth'
-
+console.log(process.env.OPENAI_API_KEY)
+console.log(process.env.OPENAI_BASE_URL)
 const openai = createOpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-  baseUrl: "https://api.openai-next.com/v1",
+  baseUrl: process.env.OPENAI_BASE_URL,
 });
 
 
@@ -158,6 +158,7 @@ async function submitUserMessage(content: string) {
       }))
     ],
     text: ({ content, done, delta }) => {
+      console.log({content, done, delta})
       if (!textStream) {
         textStream = createStreamableValue('')
         textNode = <BotMessage content={textStream.value} />
@@ -195,6 +196,7 @@ async function submitUserMessage(content: string) {
           )
         }),
         generate: async function* ({ stocks }) {
+          console.log({stocks})
           yield (
             <BotCard>
               <StocksSkeleton />

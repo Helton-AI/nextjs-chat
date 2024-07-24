@@ -144,13 +144,14 @@ export function PromptForm({
       const recognition = new SpeechRecognition()
       recognition.start()
       recognitionRef.current = recognition
-      
-      recognition.onend = async event => {
-        alert(4)
+
+      recognition.onstart = async event => {
+        setIsRecording(true)
       }
       recognition.onresult = async event => {
-      alert(5)
-      const transcript = event.results[0][0].transcript
+        console.log('onresult')
+        // alert(5)
+        const transcript = event.results[0][0].transcript
         // `Result received: ${transcript}.`;
         // alert(transcript)
 
@@ -164,12 +165,15 @@ export function PromptForm({
         const responseMessage = await submitUserMessage(transcript)
         setMessages(currentMessages => [...currentMessages, responseMessage])
       }
-      recognition.onerror
-      setIsRecording(true)
+      recognition.onerror = (e)=>{
+        console.log(e.message)
+        alert("发生异常");
+    }
     } else {
+      console.log(recognitionRef.current)
       recognitionRef.current.stop()
       setIsRecording(false)
-      alert(6)
+      // alert(6)
     }
   }
 
