@@ -203,7 +203,7 @@ async function submitUserMessage(content: string) {
             </BotCard>
           )
 
-          await sleep(1000)
+          await sleep(10000)
 
           const toolCallId = nanoid()
 
